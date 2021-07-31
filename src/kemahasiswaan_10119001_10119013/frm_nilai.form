@@ -97,8 +97,8 @@
                               <Component id="txt_nilai_kd_mk" min="-2" pref="160" max="-2" attributes="0"/>
                               <Component id="txt_nilai_uts" min="-2" pref="70" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="year_nilai_angkatan" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txt_nilai_uas" alignment="0" pref="70" max="32767" attributes="0"/>
+                                  <Component id="year_nilai_angkatan" alignment="0" pref="70" max="32767" attributes="0"/>
+                                  <Component id="txt_nilai_uas" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="0" pref="501" max="32767" attributes="0"/>
@@ -504,8 +504,13 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="tbl_nilai">
               <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder/>
+                  </Border>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Microsoft YaHei" size="12" style="0"/>
                 </Property>

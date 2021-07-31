@@ -57,7 +57,7 @@ public class frm_nilai extends javax.swing.JFrame {
         txt_nilai_uas = new javax.swing.JTextField();
         year_nilai_angkatan = new com.toedter.calendar.JYearChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_nilai = new javax.swing.JTable();
         btn_mata_kuliah_tambah = new javax.swing.JButton();
         btn_mata_kuliah_ubah = new javax.swing.JButton();
         btn_mata_kuliah_hapus = new javax.swing.JButton();
@@ -187,8 +187,9 @@ public class frm_nilai extends javax.swing.JFrame {
 
         year_nilai_angkatan.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_nilai.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbl_nilai.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        tbl_nilai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -199,7 +200,7 @@ public class frm_nilai extends javax.swing.JFrame {
                 "Nama", "Nama Mata Kuliah", "Absensi", "Tgs 1", "Tgs 2", "Tgs 3", "UTS", "UAS", "Nilai Absen", "Nilai Tugas", "Nilai UTS", "Nilai UAS", "Nilai Akhir", "Indeks", "Ket"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl_nilai);
 
         btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
         btn_mata_kuliah_tambah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
@@ -329,8 +330,8 @@ public class frm_nilai extends javax.swing.JFrame {
                             .addComponent(txt_nilai_kd_mk, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_nilai_uts, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(year_nilai_angkatan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txt_nilai_uas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
+                                .addComponent(year_nilai_angkatan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                .addComponent(txt_nilai_uas, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addGap(0, 501, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -542,7 +543,6 @@ public class frm_nilai extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbl_jdl_nilai;
     private javax.swing.JLabel lbl_key;
     private javax.swing.JLabel lbl_nilai_angkatan;
@@ -557,6 +557,7 @@ public class frm_nilai extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_nilai_tugas3;
     private javax.swing.JLabel lbl_nilai_uas;
     private javax.swing.JLabel lbl_nilai_uts;
+    private javax.swing.JTable tbl_nilai;
     private javax.swing.JTextField txt_nilai_kd_mk;
     private javax.swing.JTextField txt_nilai_kehadiran;
     private javax.swing.JTextField txt_nilai_key;

@@ -370,8 +370,8 @@ public class frm_utama extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_nilai_akhirActionPerformed
 
     private void btn_kasusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_kasusActionPerformed
-        frm_kasus k = new frm_kasus();
-        k.setVisible(true);
+        frm_login l = new frm_login();
+        l.setVisible(true);
         hide();
     }//GEN-LAST:event_btn_kasusActionPerformed
 
