@@ -256,7 +256,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbl_key" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="txt_key" min="-2" pref="323" max="-2" attributes="0"/>
+                      <Component id="txt_mahasiswa_key" min="-2" pref="323" max="-2" attributes="0"/>
                       <EmptySpace pref="18" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -267,7 +267,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_key" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_key" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txt_mahasiswa_key" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -283,7 +283,7 @@
                 <Property name="text" type="java.lang.String" value="Masukkan Kata Kunci"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txt_key">
+            <Component class="javax.swing.JTextField" name="txt_mahasiswa_key">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Microsoft YaHei" size="12" style="0"/>

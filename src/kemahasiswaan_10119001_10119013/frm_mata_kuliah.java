@@ -27,9 +27,27 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txt_mata_kuliah_key2 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         lbl_jdl_mata_kuliah = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        lbl_key = new javax.swing.JLabel();
+        txt_mata_kuliah_key = new javax.swing.JTextField();
+        lbl_kd_mk = new javax.swing.JLabel();
+        txt_mata_kuliah_kd_mk = new javax.swing.JTextField();
+        lbl_kd_mk1 = new javax.swing.JLabel();
+        txt_mata_kuliah_nama_mk = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_mata_kuliah = new javax.swing.JTable();
+        btn_mata_kuliah_tambah = new javax.swing.JButton();
+        btn_mata_kuliah_ubah = new javax.swing.JButton();
+        btn_mata_kuliah_hapus = new javax.swing.JButton();
+        btn_mata_kuliah_simpan = new javax.swing.JButton();
+        btn_mata_kuliah_batal = new javax.swing.JButton();
+        btn_mata_kuliah_keluar = new javax.swing.JButton();
+
+        txt_mata_kuliah_key2.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("DATA MATA KULIAH");
@@ -54,7 +72,7 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(367, 367, 367)
                 .addComponent(lbl_jdl_mata_kuliah)
-                .addContainerGap(375, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -64,17 +82,205 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel7.setBackground(new java.awt.Color(209, 209, 229));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "PENCARIAN DATA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Microsoft YaHei", 1, 12))); // NOI18N
+
+        lbl_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        lbl_key.setText("Masukkan Kata Kunci");
+
+        txt_mata_kuliah_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_key)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_mata_kuliah_key, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_key)
+                    .addComponent(txt_mata_kuliah_key, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        lbl_kd_mk.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        lbl_kd_mk.setText("Kode MK");
+
+        txt_mata_kuliah_kd_mk.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+
+        lbl_kd_mk1.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        lbl_kd_mk1.setText("Nama MK");
+
+        txt_mata_kuliah_nama_mk.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+
+        tbl_mata_kuliah.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbl_mata_kuliah.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        tbl_mata_kuliah.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Kode Mata Kuliah", "Nama Mata Kuliah"
+            }
+        ));
+        jScrollPane1.setViewportView(tbl_mata_kuliah);
+
+        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_tambah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/tambah.png"))); // NOI18N
+        btn_mata_kuliah_tambah.setText("TAMBAH");
+        btn_mata_kuliah_tambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_tambahMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_tambahMouseExited(evt);
+            }
+        });
+
+        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_ubah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_ubah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/ubah.png"))); // NOI18N
+        btn_mata_kuliah_ubah.setText("UBAH");
+        btn_mata_kuliah_ubah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_ubahMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_ubahMouseExited(evt);
+            }
+        });
+
+        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_hapus.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_hapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/hapus.png"))); // NOI18N
+        btn_mata_kuliah_hapus.setText("HAPUS");
+        btn_mata_kuliah_hapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_hapusMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_hapusMouseExited(evt);
+            }
+        });
+
+        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_simpan.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_simpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/simpan.png"))); // NOI18N
+        btn_mata_kuliah_simpan.setText("SIMPAN");
+        btn_mata_kuliah_simpan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_simpanMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_simpanMouseExited(evt);
+            }
+        });
+
+        btn_mata_kuliah_batal.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_batal.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_batal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/batal.png"))); // NOI18N
+        btn_mata_kuliah_batal.setText("BATAL");
+        btn_mata_kuliah_batal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_batalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_batalMouseExited(evt);
+            }
+        });
+
+        btn_mata_kuliah_keluar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_keluar.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_mata_kuliah_keluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/keluar.png"))); // NOI18N
+        btn_mata_kuliah_keluar.setText("KELUAR");
+        btn_mata_kuliah_keluar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_keluarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_mata_kuliah_keluarMouseExited(evt);
+            }
+        });
+        btn_mata_kuliah_keluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mata_kuliah_keluarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(lbl_kd_mk)
+                                .addGap(18, 18, 18)
+                                .addComponent(txt_mata_kuliah_kd_mk, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_kd_mk1)))
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_mata_kuliah_nama_mk, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(btn_mata_kuliah_tambah)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_mata_kuliah_ubah)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_mata_kuliah_hapus)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_mata_kuliah_simpan)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_mata_kuliah_batal)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                                .addComponent(btn_mata_kuliah_keluar)))))
+                .addGap(21, 21, 21))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 442, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_kd_mk)
+                    .addComponent(txt_mata_kuliah_kd_mk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_kd_mk1)
+                    .addComponent(txt_mata_kuliah_nama_mk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_mata_kuliah_tambah)
+                    .addComponent(btn_mata_kuliah_ubah)
+                    .addComponent(btn_mata_kuliah_hapus)
+                    .addComponent(btn_mata_kuliah_simpan)
+                    .addComponent(btn_mata_kuliah_batal)
+                    .addComponent(btn_mata_kuliah_keluar))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -96,6 +302,73 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
         frm_utama u = new frm_utama();
         u.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void btn_mata_kuliah_hapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusMouseEntered
+        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(128,136,203));
+        btn_mata_kuliah_hapus.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_hapusMouseEntered
+
+    private void btn_mata_kuliah_hapusMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusMouseExited
+        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_hapus.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_hapusMouseExited
+
+    private void btn_mata_kuliah_batalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_batalMouseEntered
+        btn_mata_kuliah_batal.setBackground(new java.awt.Color(128,136,203));
+        btn_mata_kuliah_batal.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_batalMouseEntered
+
+    private void btn_mata_kuliah_batalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_batalMouseExited
+        btn_mata_kuliah_batal.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_batal.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_batalMouseExited
+
+    private void btn_mata_kuliah_keluarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_keluarMouseEntered
+        //[255,0,0]
+        btn_mata_kuliah_keluar.setBackground(new java.awt.Color(255,102,102));
+        btn_mata_kuliah_keluar.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_keluarMouseEntered
+
+    private void btn_mata_kuliah_keluarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_keluarMouseExited
+        btn_mata_kuliah_keluar.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_keluar.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_keluarMouseExited
+
+    private void btn_mata_kuliah_keluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_keluarActionPerformed
+        frm_utama u = new frm_utama();
+        u.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_mata_kuliah_keluarActionPerformed
+
+    private void btn_mata_kuliah_tambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_tambahMouseEntered
+        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(128,136,203));
+        btn_mata_kuliah_tambah.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_tambahMouseEntered
+
+    private void btn_mata_kuliah_ubahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahMouseEntered
+        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(128,136,203));
+        btn_mata_kuliah_ubah.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_ubahMouseEntered
+
+    private void btn_mata_kuliah_tambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_tambahMouseExited
+        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_tambah.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_tambahMouseExited
+
+    private void btn_mata_kuliah_ubahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahMouseExited
+        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_ubah.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_ubahMouseExited
+
+    private void btn_mata_kuliah_simpanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_simpanMouseEntered
+        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(128,136,203));
+        btn_mata_kuliah_simpan.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_mata_kuliah_simpanMouseEntered
+
+    private void btn_mata_kuliah_simpanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_simpanMouseExited
+        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(255, 255, 255));
+        btn_mata_kuliah_simpan.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_mata_kuliah_simpanMouseExited
 
     /**
      * @param args the command line arguments
@@ -133,14 +406,30 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_mata_kuliah_batal;
+    private javax.swing.JButton btn_mata_kuliah_hapus;
+    private javax.swing.JButton btn_mata_kuliah_keluar;
+    private javax.swing.JButton btn_mata_kuliah_simpan;
+    private javax.swing.JButton btn_mata_kuliah_tambah;
+    private javax.swing.JButton btn_mata_kuliah_ubah;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_jdl_mata_kuliah;
     private javax.swing.JLabel lbl_judul;
     private javax.swing.JLabel lbl_judul1;
+    private javax.swing.JLabel lbl_kd_mk;
+    private javax.swing.JLabel lbl_kd_mk1;
+    private javax.swing.JLabel lbl_key;
+    private javax.swing.JTable tbl_mata_kuliah;
+    private javax.swing.JTextField txt_mata_kuliah_kd_mk;
+    private javax.swing.JTextField txt_mata_kuliah_key;
+    private javax.swing.JTextField txt_mata_kuliah_key2;
+    private javax.swing.JTextField txt_mata_kuliah_nama_mk;
     // End of variables declaration//GEN-END:variables
 }

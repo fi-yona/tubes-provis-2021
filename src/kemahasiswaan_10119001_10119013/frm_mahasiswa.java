@@ -34,7 +34,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
         lbl_jdl_mahasiswa = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lbl_key = new javax.swing.JLabel();
-        txt_key = new javax.swing.JTextField();
+        txt_mahasiswa_key = new javax.swing.JTextField();
         lbl_nim = new javax.swing.JLabel();
         lbl_nim1 = new javax.swing.JLabel();
         lbl_nim2 = new javax.swing.JLabel();
@@ -110,7 +110,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
         lbl_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         lbl_key.setText("Masukkan Kata Kunci");
 
-        txt_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        txt_mahasiswa_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -120,7 +120,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_key)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_key, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_mahasiswa_key, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -129,7 +129,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_key)
-                    .addComponent(txt_key, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_mahasiswa_key, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -501,7 +501,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_nim4;
     private javax.swing.JTable tbl_mahasiswa;
     private javax.swing.JTextArea txt_alamat;
-    private javax.swing.JTextField txt_key;
+    private javax.swing.JTextField txt_mahasiswa_key;
     private javax.swing.JTextField txt_mahasiswa_nama;
     private javax.swing.JTextField txt_mahasiswa_nim;
     private javax.swing.JTextField txt_tmpt_lahir;
