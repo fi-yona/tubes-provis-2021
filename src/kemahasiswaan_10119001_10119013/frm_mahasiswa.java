@@ -77,7 +77,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                     user,
                     pass);
             Statement stt = kon.createStatement();
-            String SQL = "select nim, nama, tempat_lahir, tanggal_lahir, alamat from t_mahasiswa";
+            String SQL = "select nim, nama, ttl, tgl_lahir, alamat from t_mahasiswa";
             ResultSet res = stt.executeQuery(SQL);
             
             while (res.next()) {
@@ -596,10 +596,9 @@ public class frm_mahasiswa extends javax.swing.JFrame {
 
     private void btn_mahasiswa_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mahasiswa_simpanActionPerformed
         // TODO add your handling code here:
-          String data[] = new String[5];
+        String data[] = new String[5];
                
-//        if ((txt_mahasiswa_nim.getText().isEmpty()) || (date_tgl_lahir.getText().isEmpty())){
-        if ((txt_mahasiswa_nim.getText().isEmpty())){
+        if ((txt_mahasiswa_nim.getText().isEmpty()) || (txt_mahasiswa_tgl_lahir.getText().isEmpty())){
             JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi");
             txt_mahasiswa_nim.requestFocus();
         } else {
@@ -612,8 +611,8 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                 Statement stt = kon.createStatement();
                 String SQL = "INSERT INTO t_mahasiswa(nim,"
                                 + "nama,"
-                                + "tempat_lahir,"
-                                + "tanggal_lahir,"
+                                + "ttl,"
+                                + "tgl_lahir,"
                                 + "alamat) "
                                 + "VALUES "
                                 + "( '"+txt_mahasiswa_nim.getText()+"',"
@@ -671,8 +670,8 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                         + "SET "
                         + "nim = '" + nim + "', "
                         + "nama = '" + nama + "', "
-                        + "tempat_lahir = '" + tempat_lahir + "', "
-                        + "tanggal_lahir = '" + tgl_lahir + "', "
+                        + "ttl = '" + tempat_lahir + "', "
+                        + "tgl_lahir = '" + tgl_lahir + "', "
                         + "alamat = '" + alamat + "' "
                         + "WHERE nim = '" + tableModel.getValueAt(row, 0).toString()+"'";
                         

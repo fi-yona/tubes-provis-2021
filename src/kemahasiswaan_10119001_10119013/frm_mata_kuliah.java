@@ -5,17 +5,118 @@
  */
 package kemahasiswaan_10119001_10119013;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Fiona Avila
  */
 public class frm_mata_kuliah extends javax.swing.JFrame {
 
+    koneksi dbsetting;
+    String driver, database, user, pass;
+    Object tabel;
     /**
      * Creates new form frm_mata_kuliah
      */
     public frm_mata_kuliah() {
         initComponents();
+        
+        dbsetting = new koneksi();
+        driver = dbsetting.SettingPanel("DBDriver");
+        database = dbsetting.SettingPanel("DBDatabase");
+        user = dbsetting.SettingPanel("DBUsername");
+        pass = dbsetting.SettingPanel("DBPassword");
+        
+        tbl_mata_kuliah.setModel(tableModel);
+        settableload();
+    }
+    
+    private javax.swing.table.DefaultTableModel tableModel = getDefaultTabelModel();
+    private javax.swing.table.DefaultTableModel getDefaultTabelModel() {
+        //  Membuat judul header
+        return new javax.swing.table.DefaultTableModel
+        (
+            new Object[][] {},
+            new String [] {
+                "Kode Mata Kuliah",
+                "Nama Mata Kuliah",
+            }
+        )
+                
+        // disable perubahan pada grid
+        {
+            boolean[] canEdit = new boolean[]
+            {
+                false, false
+            };
+            
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit[columnIndex];
+            }
+        };
+    }
+    
+    String data[]=new String[2];
+ 
+    private void settableload() {
+        String stat = "";
+        try {
+            Class.forName(driver);
+            java.sql.Connection kon = DriverManager.getConnection(
+                    database,
+                    user,
+                    pass);
+            Statement stt = kon.createStatement();
+            String SQL = "select * from t_mata_kuliah";
+            ResultSet res = stt.executeQuery(SQL);
+            
+            while (res.next()) {
+                data[0] = res.getString(1);
+                data[1] = res.getString(2);
+                tableModel.addRow(data);
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+    
+    public void membersihkan_teks(){
+        txt_mata_kuliah_kd_mk.setText("");
+        txt_mata_kuliah_nama_mk.setText("");
+    }
+    
+    public void nonaktif_teks(){
+        txt_mata_kuliah_kd_mk.setEnabled(false);
+        txt_mata_kuliah_nama_mk.setEnabled(false);
+    }
+    
+    public void aktif_teks(){
+        txt_mata_kuliah_kd_mk.setEnabled(true);
+        txt_mata_kuliah_nama_mk.setEnabled(true);
+    }
+    
+    int row = 0;
+    public void tampil_field(){
+        row = tbl_mata_kuliah.getSelectedRow();
+        txt_mata_kuliah_kd_mk.setText(tableModel.getValueAt(row, 0).toString());
+        txt_mata_kuliah_nama_mk.setText(tableModel.getValueAt(row, 1).toString());
+        
+        btn_mata_kuliah_simpan.setEnabled(false);
+        btn_mata_kuliah_ubah.setEnabled(true);
+        btn_mata_kuliah_hapus.setEnabled(true);
+        btn_mata_kuliah_batal.setEnabled(false);
+        aktif_teks();
     }
 
     /**
@@ -134,6 +235,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
                 "Kode Mata Kuliah", "Nama Mata Kuliah"
             }
         ));
+        tbl_mata_kuliah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_mata_kuliahMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_mata_kuliah);
 
         btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
@@ -146,6 +252,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_mata_kuliah_tambahMouseExited(evt);
+            }
+        });
+        btn_mata_kuliah_tambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mata_kuliah_tambahActionPerformed(evt);
             }
         });
 
@@ -161,6 +272,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
                 btn_mata_kuliah_ubahMouseExited(evt);
             }
         });
+        btn_mata_kuliah_ubah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mata_kuliah_ubahActionPerformed(evt);
+            }
+        });
 
         btn_mata_kuliah_hapus.setBackground(new java.awt.Color(255, 255, 255));
         btn_mata_kuliah_hapus.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
@@ -174,6 +290,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
                 btn_mata_kuliah_hapusMouseExited(evt);
             }
         });
+        btn_mata_kuliah_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mata_kuliah_hapusActionPerformed(evt);
+            }
+        });
 
         btn_mata_kuliah_simpan.setBackground(new java.awt.Color(255, 255, 255));
         btn_mata_kuliah_simpan.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
@@ -185,6 +306,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_mata_kuliah_simpanMouseExited(evt);
+            }
+        });
+        btn_mata_kuliah_simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mata_kuliah_simpanActionPerformed(evt);
             }
         });
 
@@ -370,6 +496,121 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
         btn_mata_kuliah_simpan.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_mata_kuliah_simpanMouseExited
 
+    private void tbl_mata_kuliahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_mata_kuliahMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount()==1){
+            tampil_field();
+        }
+    }//GEN-LAST:event_tbl_mata_kuliahMouseClicked
+
+    private void btn_mata_kuliah_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_tambahActionPerformed
+        // TODO add your handling code here:
+        membersihkan_teks();
+        txt_mata_kuliah_kd_mk.requestFocus();
+        btn_mata_kuliah_simpan.setEnabled(true);
+        btn_mata_kuliah_ubah.setEnabled(false);
+        btn_mata_kuliah_hapus.setEnabled(false);
+        btn_mata_kuliah_batal.setEnabled(false);
+    }//GEN-LAST:event_btn_mata_kuliah_tambahActionPerformed
+
+    private void btn_mata_kuliah_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_simpanActionPerformed
+        // TODO add your handling code here:
+        String data[] = new String[5];
+               
+        if ((txt_mata_kuliah_kd_mk.getText().isEmpty()) || (txt_mata_kuliah_nama_mk.getText().isEmpty())){
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi");
+            txt_mata_kuliah_kd_mk.requestFocus();
+        } else {
+            try {
+                Class.forName(driver);
+                java.sql.Connection kon = DriverManager.getConnection(
+                                    database,
+                                    user,
+                                    pass);
+                Statement stt = kon.createStatement();
+                String SQL = "INSERT INTO t_mata_kuliah(kd_mk,"
+                                + "nama_mk)"
+                                + "VALUES "
+                                + "( '"+txt_mata_kuliah_kd_mk.getText()+"',"
+                                + " ' "+txt_mata_kuliah_nama_mk.getText()+"')";
+                
+                stt.executeUpdate(SQL);
+                data[0] = txt_mata_kuliah_kd_mk.getText();
+                data[1] = txt_mata_kuliah_nama_mk.getText();
+                tableModel.insertRow(0, data);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+                btn_mata_kuliah_simpan.setEnabled(false);
+                nonaktif_teks();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Eror",
+                JOptionPane.INFORMATION_MESSAGE);
+            }    
+        }
+    }//GEN-LAST:event_btn_mata_kuliah_simpanActionPerformed
+
+    private void btn_mata_kuliah_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahActionPerformed
+        // TODO add your handling code here:
+        String kd_mk = txt_mata_kuliah_kd_mk.getText();
+        String nama_mk = txt_mata_kuliah_nama_mk.getText();
+        
+        if ((kd_mk.isEmpty()) | (nama_mk.isEmpty())){
+            JOptionPane.showMessageDialog(null, "data tidak boleh kosong");
+            txt_mata_kuliah_kd_mk.requestFocus();
+        } else {
+            try {
+                Class.forName(driver);
+                java.sql.Connection kon = DriverManager.getConnection(
+                                    database,
+                                    user,
+                                    pass);
+                Statement stt = kon.createStatement();
+                String SQL = "UPDATE t_mata_kuliah "
+                        + "SET "
+                        + "kd_mk = '" + kd_mk + "', "
+                        + "nama_mk = '" + nama_mk + "' "
+                        + "WHERE kd_mk = '" + tableModel.getValueAt(row, 0).toString()+"'";
+                        
+                stt.executeUpdate(SQL);
+                data[0] = kd_mk;
+                data[1] = nama_mk;
+                tableModel.removeRow(row);
+                tableModel.insertRow(row, data);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+                btn_mata_kuliah_simpan.setEnabled(false);
+                nonaktif_teks();
+                
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btn_mata_kuliah_ubahActionPerformed
+
+    private void btn_mata_kuliah_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusActionPerformed
+        // TODO add your handling code here:
+        try {
+             Class.forName(driver);
+             java.sql.Connection kon = DriverManager.getConnection(
+                                    database,
+                                    user,
+                                    pass);
+             Statement stt = kon.createStatement();
+             String SQL = "DELETE FROM t_mata_kuliah "
+                                    + "WHERE "
+                                + "kd_mk='"+tableModel.getValueAt(row, 0).toString()+"'";
+                stt.executeUpdate(SQL);
+                tableModel.removeRow(row);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btn_mata_kuliah_hapusActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -412,17 +653,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
     private javax.swing.JButton btn_mata_kuliah_simpan;
     private javax.swing.JButton btn_mata_kuliah_tambah;
     private javax.swing.JButton btn_mata_kuliah_ubah;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_jdl_mata_kuliah;
-    private javax.swing.JLabel lbl_judul;
-    private javax.swing.JLabel lbl_judul1;
     private javax.swing.JLabel lbl_kd_mk;
     private javax.swing.JLabel lbl_kd_mk1;
     private javax.swing.JLabel lbl_key;

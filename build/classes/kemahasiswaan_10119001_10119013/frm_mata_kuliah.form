@@ -292,6 +292,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_mata_kuliahMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -311,6 +314,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_tambahMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_tambahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_tambahActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_ubah">
@@ -329,6 +333,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_ubahActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_hapus">
@@ -347,6 +352,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_hapusActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_simpan">
@@ -365,6 +371,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_simpanMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_simpanMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_simpanActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_batal">
