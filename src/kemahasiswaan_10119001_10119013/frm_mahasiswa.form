@@ -103,16 +103,20 @@
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="txt_tmpt_lahir" min="-2" pref="250" max="-2" attributes="0"/>
+                                          <Component id="txt_mahasiswa_tmpt_lahir" min="-2" pref="250" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="txt_mahasiswa_tgl_lahir" min="-2" pref="226" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lbl_nim5" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="jScrollPane1" min="-2" pref="310" max="-2" attributes="0"/>
-                              <Component id="date_tgl_lahir" min="-2" pref="250" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -146,13 +150,12 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="date_tgl_lahir" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_nim" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_nim3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_mahasiswa_nim" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl_nim" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_nim3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_mahasiswa_nim" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_mahasiswa_tgl_lahir" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_nim5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -166,7 +169,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbl_nim2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_tmpt_lahir" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_mahasiswa_tmpt_lahir" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -289,6 +292,10 @@
                   <Font name="Microsoft YaHei" size="12" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_mahasiswa_keyKeyReleased"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_mahasiswa_keyKeyTyped"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -332,7 +339,7 @@
             <Property name="text" type="java.lang.String" value="Alamat"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_tmpt_lahir">
+        <Component class="javax.swing.JTextField" name="txt_mahasiswa_tmpt_lahir">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft YaHei" size="12" style="0"/>
@@ -353,11 +360,6 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="date_tgl_lahir">
-          <Properties>
-            <Property name="dateFormatString" type="java.lang.String" value="d MMM yyyy"/>
-          </Properties>
-        </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -365,7 +367,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="txt_alamat">
+            <Component class="javax.swing.JTextArea" name="txt_mahasiswa_alamat">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -403,6 +405,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_mahasiswaMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -422,6 +427,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_tambahMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_tambahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mahasiswa_tambahActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mahasiswa_ubah">
@@ -440,6 +446,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_ubahMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_ubahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mahasiswa_ubahActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mahasiswa_hapus">
@@ -458,6 +465,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_hapusMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_hapusMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mahasiswa_hapusActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mahasiswa_simpan">
@@ -476,6 +484,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_simpanMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_simpanMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mahasiswa_simpanActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mahasiswa_batal">
@@ -514,6 +523,16 @@
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mahasiswa_keluarMouseExited"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mahasiswa_keluarActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txt_mahasiswa_tgl_lahir">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_nim5">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft YaHei" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="(yyyy-mm-dd)"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
