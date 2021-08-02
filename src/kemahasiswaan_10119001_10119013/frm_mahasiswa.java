@@ -6,6 +6,7 @@
 package kemahasiswaan_10119001_10119013;
 
 import com.toedter.calendar.JDateChooser;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -175,6 +176,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
         btn_mahasiswa_batal = new javax.swing.JButton();
         btn_mahasiswa_keluar = new javax.swing.JButton();
         txt_mahasiswa_tgl_lahir = new javax.swing.JTextField();
+        lbl_nim5 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,6 +234,14 @@ public class frm_mahasiswa extends javax.swing.JFrame {
         lbl_key.setText("Masukkan Kata Kunci");
 
         txt_mahasiswa_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        txt_mahasiswa_key.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_mahasiswa_keyKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_mahasiswa_keyKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -403,6 +413,9 @@ public class frm_mahasiswa extends javax.swing.JFrame {
             }
         });
 
+        lbl_nim5.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        lbl_nim5.setText("(yyyy-mm-dd)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -434,9 +447,13 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txt_mahasiswa_tmpt_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_mahasiswa_tgl_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txt_mahasiswa_tgl_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_nim5))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -466,7 +483,8 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                     .addComponent(lbl_nim)
                     .addComponent(lbl_nim3)
                     .addComponent(txt_mahasiswa_nim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_mahasiswa_tgl_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_mahasiswa_tgl_lahir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_nim5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -717,6 +735,41 @@ public class frm_mahasiswa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_mahasiswa_hapusActionPerformed
 
+    private void txt_mahasiswa_keyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_mahasiswa_keyKeyReleased
+        tableModel.setRowCount(0);
+        try{
+            Class.forName(driver);
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String sql = "SELECT nim, nama, ttl, tgl_lahir, alamat "
+            + "FROM t_mahasiswa "
+            + "WHERE (nim LIKE '%" + txt_mahasiswa_key.getText() + "%') "
+            + "OR (nama LIKE '%" + txt_mahasiswa_key.getText() + "%') "
+            + "OR (ttl LIKE '%" + txt_mahasiswa_key.getText() + "%') "
+            + "OR (tgl_lahir LIKE '%" + txt_mahasiswa_key.getText() + "%') "
+            + "OR (alamat LIKE '%" + txt_mahasiswa_key.getText() + "%') "
+            + "ORDER BY nim ASC;";
+            ResultSet res = stt.executeQuery(sql);
+            while(res.next()){
+                data[0] = res.getString(1);
+                data[1] = res.getString(2);
+                data[2] = res.getString(3);
+                data[3] = res.getString(4);
+                data[4] = res.getString(5);
+                tableModel.addRow(data);
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_txt_mahasiswa_keyKeyReleased
+
+    private void txt_mahasiswa_keyKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_mahasiswa_keyKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_mahasiswa_keyKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -773,6 +826,7 @@ public class frm_mahasiswa extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_nim2;
     private javax.swing.JLabel lbl_nim3;
     private javax.swing.JLabel lbl_nim4;
+    private javax.swing.JLabel lbl_nim5;
     private javax.swing.JTable tbl_mahasiswa;
     private javax.swing.JTextArea txt_mahasiswa_alamat;
     private javax.swing.JTextField txt_mahasiswa_key;

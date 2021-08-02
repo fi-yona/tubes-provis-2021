@@ -109,9 +109,14 @@
                                   </Group>
                               </Group>
                           </Group>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="txt_mahasiswa_tgl_lahir" min="-2" pref="226" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lbl_nim5" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="jScrollPane1" min="-2" pref="310" max="-2" attributes="0"/>
-                              <Component id="txt_mahasiswa_tgl_lahir" alignment="0" min="-2" pref="226" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -150,6 +155,7 @@
                       <Component id="lbl_nim3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_mahasiswa_nim" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txt_mahasiswa_tgl_lahir" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_nim5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -286,6 +292,10 @@
                   <Font name="Microsoft YaHei" size="12" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_mahasiswa_keyKeyReleased"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_mahasiswa_keyKeyTyped"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -515,6 +525,14 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_mahasiswa_tgl_lahir">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_nim5">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Microsoft YaHei" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="(yyyy-mm-dd)"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
