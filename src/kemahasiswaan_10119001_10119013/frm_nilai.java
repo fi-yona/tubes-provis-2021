@@ -5,17 +5,34 @@
  */
 package kemahasiswaan_10119001_10119013;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Fiona Avila
  */
 public class frm_nilai extends javax.swing.JFrame {
 
+    koneksi dbsetting;
+    String driver, database, user, pass;
+    Object tabel;
     /**
      * Creates new form frm_nilai
      */
     public frm_nilai() {
         initComponents();
+        
+        dbsetting = new koneksi();
+        driver = dbsetting.SettingPanel("DBDriver");
+        database = dbsetting.SettingPanel("DBDatabase");
+        user = dbsetting.SettingPanel("DBUsername");
+        pass = dbsetting.SettingPanel("DBPassword");
+        
+        dataMahasiswaToComboBox();
+        dataMataKuliahToComboBox();
     }
 
     /**
@@ -131,7 +148,6 @@ public class frm_nilai extends javax.swing.JFrame {
         lbl_nilai_nama.setText("Nama");
 
         combo_nilai_nama.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        combo_nilai_nama.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lbl_nilai_nim.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         lbl_nilai_nim.setText("NIM");
@@ -154,7 +170,6 @@ public class frm_nilai extends javax.swing.JFrame {
         lbl_nilai_nama_mk.setText("Nama MK");
 
         combo_nilai_nama_mk.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-        combo_nilai_nama_mk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         txt_nilai_kehadiran.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
@@ -184,8 +199,6 @@ public class frm_nilai extends javax.swing.JFrame {
         txt_nilai_uts.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
         txt_nilai_uas.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
-
-        year_nilai_angkatan.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
         tbl_nilai.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tbl_nilai.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
@@ -423,6 +436,57 @@ public class frm_nilai extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void dataMahasiswaToComboBox(){
+         try {
+            Class.forName(driver);
+            java.sql.Connection kon = DriverManager.getConnection(
+                    database,
+                    user,
+                    pass);
+            Statement stt = kon.createStatement();
+            String SQL = "select nim, nama, ttl, tgl_lahir, alamat from t_mahasiswa";
+            ResultSet res = stt.executeQuery(SQL);
+            
+            while (res.next()) {
+                combo_nilai_nama.addItem(res.getString(2));
+//                txt_nilai_nim.setText(res.getString(1));
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+    
+      public void dataMataKuliahToComboBox(){
+          try {
+            Class.forName(driver);
+            java.sql.Connection kon = DriverManager.getConnection(
+                    database,
+                    user,
+                    pass);
+            Statement stt = kon.createStatement();
+            String SQL = "select * from t_mata_kuliah";
+            ResultSet res = stt.executeQuery(SQL);
+            
+            while (res.next()) {
+               combo_nilai_nama_mk.addItem(res.getString("nama_mk"));
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         frm_utama u = new frm_utama();
         u.setVisible(true);
