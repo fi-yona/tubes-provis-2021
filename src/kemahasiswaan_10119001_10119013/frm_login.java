@@ -5,6 +5,12 @@
  */
 package kemahasiswaan_10119001_10119013;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Fiona Avila
@@ -14,12 +20,21 @@ public class frm_login extends javax.swing.JFrame {
     /**
      * Creates new form frm_login
      */
+    koneksi dbsetting;
+    String driver, database, user, pass;
     
+    String username;
+    String password;
+    String namaUser;
     
     public frm_login() {
         initComponents();
     }
-
+    
+    public void cekUser(){
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,7 +49,7 @@ public class frm_login extends javax.swing.JFrame {
         lbl_username = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
         txt_username = new javax.swing.JTextField();
-        txt_password = new javax.swing.JTextField();
+        txt_password = new javax.swing.JPasswordField();
         btn_log_in = new javax.swing.JButton();
         btn_keluar = new javax.swing.JButton();
 
@@ -60,6 +75,11 @@ public class frm_login extends javax.swing.JFrame {
         txt_username.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
 
         txt_password.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        txt_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_passwordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -68,14 +88,12 @@ public class frm_login extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lbl_username)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_username))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lbl_password)
-                        .addGap(15, 15, 15)
-                        .addComponent(txt_password, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
+                    .addComponent(lbl_username)
+                    .addComponent(lbl_password))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_password)
+                    .addComponent(txt_username, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -89,7 +107,7 @@ public class frm_login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_password)
                     .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         btn_log_in.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
@@ -140,7 +158,7 @@ public class frm_login extends javax.swing.JFrame {
                         .addComponent(btn_log_in)
                         .addGap(18, 18, 18)
                         .addComponent(btn_keluar)))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +169,7 @@ public class frm_login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_log_in)
                     .addComponent(btn_keluar))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -207,6 +225,10 @@ public class frm_login extends javax.swing.JFrame {
         btn_keluar.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_keluarMouseExited
 
+    private void txt_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_passwordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,7 +271,7 @@ public class frm_login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbl_password;
     private javax.swing.JLabel lbl_username;
-    private javax.swing.JTextField txt_password;
+    private javax.swing.JPasswordField txt_password;
     private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 }

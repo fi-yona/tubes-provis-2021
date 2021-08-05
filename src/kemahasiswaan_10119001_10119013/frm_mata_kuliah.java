@@ -5,6 +5,7 @@
  */
 package kemahasiswaan_10119001_10119013;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -190,6 +191,11 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
         lbl_key.setText("Masukkan Kata Kunci");
 
         txt_mata_kuliah_key.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        txt_mata_kuliah_key.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_mata_kuliah_keyKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -610,6 +616,31 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_btn_mata_kuliah_hapusActionPerformed
+
+    private void txt_mata_kuliah_keyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_mata_kuliah_keyKeyReleased
+        tableModel.setRowCount(0);
+        try{
+            Class.forName(driver);
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String sql = "SELECT kd_mk, nama_mk "
+            + "FROM t_mata_kuliah "
+            + "WHERE (kd_mk LIKE '%" + txt_mata_kuliah_key.getText() + "%') "
+            + "OR (nama_mk LIKE '%" + txt_mata_kuliah_key.getText() + "%') "
+            + "ORDER BY kd_mk ASC;";
+            ResultSet res = stt.executeQuery(sql);
+            while(res.next()){
+                data[0] = res.getString(1);
+                data[1] = res.getString(2);
+                tableModel.addRow(data);
+            }
+            res.close();
+            stt.close();
+            kon.close();
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_txt_mata_kuliah_keyKeyReleased
 
     /**
      * @param args the command line arguments

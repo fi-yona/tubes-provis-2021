@@ -299,6 +299,9 @@
                   <Font name="Microsoft YaHei" size="12" style="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_nilai_keyKeyReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -319,6 +322,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combo_nilai_namaActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -333,10 +339,14 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_nilai_nim">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft YaHei" size="12" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_nilai_nimActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_nilai_kehadiran">
           <Properties>
@@ -387,6 +397,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combo_nilai_nama_mkActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -461,6 +474,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txt_nilai_kd_mk">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Microsoft YaHei" size="12" style="0"/>
             </Property>
@@ -519,6 +533,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbl_nilaiMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -556,6 +573,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_ubahActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_hapus">
@@ -574,6 +592,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_hapusActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_simpan">
