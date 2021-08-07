@@ -634,10 +634,10 @@ public class frm_mahasiswa extends javax.swing.JFrame {
                                 + "alamat) "
                                 + "VALUES "
                                 + "( '"+txt_mahasiswa_nim.getText()+"',"
-                                + " ' "+txt_mahasiswa_nama.getText()+" ' ,"
-                                + " ' "+txt_mahasiswa_tmpt_lahir.getText()+" ' ,"
-                                + " ' "+txt_mahasiswa_tgl_lahir.getText()+" ' ,"
-                                + " ' "+txt_mahasiswa_alamat.getText()+" ' )";
+                                + " '"+txt_mahasiswa_nama.getText()+"' ,"
+                                + " '"+txt_mahasiswa_tmpt_lahir.getText()+"' ,"
+                                + " '"+txt_mahasiswa_tgl_lahir.getText()+"' ,"
+                                + " '"+txt_mahasiswa_alamat.getText()+"' )";
                 
                 stt.executeUpdate(SQL);
                 data[0] = txt_mahasiswa_nim.getText();

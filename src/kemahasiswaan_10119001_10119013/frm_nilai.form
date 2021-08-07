@@ -13,6 +13,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -108,15 +109,15 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="btn_mata_kuliah_tambah" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_nilai_tambah" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btn_mata_kuliah_ubah" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_nilai_ubah" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btn_mata_kuliah_hapus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_nilai_hapus" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btn_mata_kuliah_simpan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_nilai_simpan" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btn_mata_kuliah_batal" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_nilai_batal" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="btn_mata_kuliah_keluar" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -183,13 +184,13 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btn_mata_kuliah_ubah" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btn_mata_kuliah_hapus" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btn_mata_kuliah_simpan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btn_mata_kuliah_batal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_nilai_ubah" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_nilai_hapus" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_nilai_simpan" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_nilai_batal" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btn_mata_kuliah_keluar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="btn_mata_kuliah_tambah" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_nilai_tambah" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
               </Group>
@@ -539,7 +540,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btn_mata_kuliah_tambah">
+        <Component class="javax.swing.JButton" name="btn_nilai_tambah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -553,11 +554,12 @@
             <Property name="text" type="java.lang.String" value="TAMBAH"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_tambahMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_tambahMouseExited"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_tambahMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_tambahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nilai_tambahActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_mata_kuliah_ubah">
+        <Component class="javax.swing.JButton" name="btn_nilai_ubah">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -571,12 +573,12 @@
             <Property name="text" type="java.lang.String" value="UBAH"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_ubahMouseExited"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_ubahActionPerformed"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_ubahMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_ubahMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nilai_ubahActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_mata_kuliah_hapus">
+        <Component class="javax.swing.JButton" name="btn_nilai_hapus">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -590,12 +592,12 @@
             <Property name="text" type="java.lang.String" value="HAPUS"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_hapusMouseExited"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mata_kuliah_hapusActionPerformed"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_hapusMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_hapusMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nilai_hapusActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_mata_kuliah_simpan">
+        <Component class="javax.swing.JButton" name="btn_nilai_simpan">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -609,11 +611,12 @@
             <Property name="text" type="java.lang.String" value="SIMPAN"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_simpanMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_simpanMouseExited"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_simpanMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_simpanMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nilai_simpanActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_mata_kuliah_batal">
+        <Component class="javax.swing.JButton" name="btn_nilai_batal">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -627,8 +630,9 @@
             <Property name="text" type="java.lang.String" value="BATAL"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_batalMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mata_kuliah_batalMouseExited"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_batalMouseEntered"/>
+            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nilai_batalMouseExited"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_nilai_batalActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_mata_kuliah_keluar">

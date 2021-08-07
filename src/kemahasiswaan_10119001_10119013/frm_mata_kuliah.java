@@ -538,7 +538,7 @@ public class frm_mata_kuliah extends javax.swing.JFrame {
                                 + "nama_mk)"
                                 + "VALUES "
                                 + "( '"+txt_mata_kuliah_kd_mk.getText()+"',"
-                                + " ' "+txt_mata_kuliah_nama_mk.getText()+"')";
+                                + " '"+txt_mata_kuliah_nama_mk.getText()+"')";
                 
                 stt.executeUpdate(SQL);
                 data[0] = txt_mata_kuliah_kd_mk.getText();

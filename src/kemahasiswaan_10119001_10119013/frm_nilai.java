@@ -87,7 +87,7 @@ public class frm_nilai extends javax.swing.JFrame {
         };
     }
     
-    String data[]=new String[15];
+    String data[]=new String[17];
  
     private void settableload() {
         String stat = "";
@@ -99,7 +99,7 @@ public class frm_nilai extends javax.swing.JFrame {
                     pass);
             Statement stt = kon.createStatement();
             String SQL = "select t_mahasiswa.nama, t_mata_kuliah.nama_mk, t_nilai.kehadiran,\n" +
-                    "t_nilai.tugas_satu, t_nilai.tugas_dua, t_nilai.tugas_tiga, t_nilai.uts, t_nilai.uas, t_nilai.nilai, t_nilai.indeks, t_nilai.ket\n" +
+                    "t_nilai.tugas_satu, t_nilai.tugas_dua, t_nilai.tugas_tiga, t_nilai.uts, t_nilai.uas, t_nilai.nilai_absen, t_nilai.nilai_tugas, t_nilai.nilai_uts, t_nilai.nilai_uas, t_nilai.nilai_akhir, t_nilai.indeks, t_nilai.ket\n" +
                     "from t_nilai JOIN t_mata_kuliah ON\n" +
                     "t_nilai.kd_mk = t_mata_kuliah.kd_mk JOIN t_mahasiswa ON\n" +
                     "t_nilai.nim = t_mahasiswa.nim";
@@ -114,13 +114,13 @@ public class frm_nilai extends javax.swing.JFrame {
                 data[5] = res.getString(6);
                 data[6] = res.getString(7);
                 data[7] = res.getString(8);
-                data[8] = data[3];
-                data[9] = data[4];
-                data[10] = data[5];
-                data[11] = data[6];
-                data[12] = res.getString(9);
-                data[13] = res.getString(10);
-                data[14] = res.getString(11);
+                data[8] = res.getString(9);
+                data[9] = res.getString(10);
+                data[10] = res.getString(11);
+                data[11] = res.getString(12);
+                data[12] = res.getString(13);
+                data[13] = res.getString(14);
+                data[14] = res.getString(15);
                 tableModel.addRow(data);
             }
             res.close();
@@ -170,17 +170,20 @@ public class frm_nilai extends javax.swing.JFrame {
     int row = 0;
     public void tampil_field(){
         row = tbl_nilai.getSelectedRow();
-        txt_nilai_kehadiran.setText(tableModel.getValueAt(row, 3).toString());
-        txt_nilai_tugas1.setText(tableModel.getValueAt(row, 4).toString());
-        txt_nilai_tugas2.setText(tableModel.getValueAt(row, 5).toString());
-        txt_nilai_tugas3.setText(tableModel.getValueAt(row, 6).toString());
-        txt_nilai_uts.setText(tableModel.getValueAt(row, 7).toString());
-        txt_nilai_uas.setText(tableModel.getValueAt(row, 8).toString());
+        combo_nilai_nama.setSelectedItem(tableModel.getValueAt(row, 0));
+        combo_nilai_nama_mk.setSelectedItem(tableModel.getValueAt(row, 1));
+//        txt_nilai_nim.setText(data[3].toString());
+        txt_nilai_kehadiran.setText(tableModel.getValueAt(row, 2).toString());
+        txt_nilai_tugas1.setText(tableModel.getValueAt(row, 3).toString());
+        txt_nilai_tugas2.setText(tableModel.getValueAt(row, 4).toString());
+        txt_nilai_tugas3.setText(tableModel.getValueAt(row, 5).toString());
+        txt_nilai_uts.setText(tableModel.getValueAt(row, 6).toString());
+        txt_nilai_uas.setText(tableModel.getValueAt(row, 7).toString());
         
-        btn_mata_kuliah_simpan.setEnabled(false);
-        btn_mata_kuliah_ubah.setEnabled(true);
-        btn_mata_kuliah_hapus.setEnabled(true);
-        btn_mata_kuliah_batal.setEnabled(false);
+        btn_nilai_simpan.setEnabled(false);
+        btn_nilai_ubah.setEnabled(true);
+        btn_nilai_hapus.setEnabled(true);
+        btn_nilai_batal.setEnabled(true);
         aktif_teks();
     }
                       
@@ -267,6 +270,7 @@ public class frm_nilai extends javax.swing.JFrame {
             }
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -307,11 +311,11 @@ public class frm_nilai extends javax.swing.JFrame {
         year_nilai_angkatan = new com.toedter.calendar.JYearChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_nilai = new javax.swing.JTable();
-        btn_mata_kuliah_tambah = new javax.swing.JButton();
-        btn_mata_kuliah_ubah = new javax.swing.JButton();
-        btn_mata_kuliah_hapus = new javax.swing.JButton();
-        btn_mata_kuliah_simpan = new javax.swing.JButton();
-        btn_mata_kuliah_batal = new javax.swing.JButton();
+        btn_nilai_tambah = new javax.swing.JButton();
+        btn_nilai_ubah = new javax.swing.JButton();
+        btn_nilai_hapus = new javax.swing.JButton();
+        btn_nilai_simpan = new javax.swing.JButton();
+        btn_nilai_batal = new javax.swing.JButton();
         btn_mata_kuliah_keluar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -319,6 +323,9 @@ public class frm_nilai extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -474,78 +481,93 @@ public class frm_nilai extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_nilai);
 
-        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_tambah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
-        btn_mata_kuliah_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/tambah.png"))); // NOI18N
-        btn_mata_kuliah_tambah.setText("TAMBAH");
-        btn_mata_kuliah_tambah.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_nilai_tambah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_tambah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_nilai_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/tambah.png"))); // NOI18N
+        btn_nilai_tambah.setText("TAMBAH");
+        btn_nilai_tambah.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_tambahMouseEntered(evt);
+                btn_nilai_tambahMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_tambahMouseExited(evt);
+                btn_nilai_tambahMouseExited(evt);
             }
         });
-
-        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_ubah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
-        btn_mata_kuliah_ubah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/ubah.png"))); // NOI18N
-        btn_mata_kuliah_ubah.setText("UBAH");
-        btn_mata_kuliah_ubah.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_ubahMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_ubahMouseExited(evt);
-            }
-        });
-        btn_mata_kuliah_ubah.addActionListener(new java.awt.event.ActionListener() {
+        btn_nilai_tambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_mata_kuliah_ubahActionPerformed(evt);
+                btn_nilai_tambahActionPerformed(evt);
             }
         });
 
-        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_hapus.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
-        btn_mata_kuliah_hapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/hapus.png"))); // NOI18N
-        btn_mata_kuliah_hapus.setText("HAPUS");
-        btn_mata_kuliah_hapus.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_nilai_ubah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_ubah.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_nilai_ubah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/ubah.png"))); // NOI18N
+        btn_nilai_ubah.setText("UBAH");
+        btn_nilai_ubah.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_hapusMouseEntered(evt);
+                btn_nilai_ubahMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_hapusMouseExited(evt);
+                btn_nilai_ubahMouseExited(evt);
             }
         });
-        btn_mata_kuliah_hapus.addActionListener(new java.awt.event.ActionListener() {
+        btn_nilai_ubah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_mata_kuliah_hapusActionPerformed(evt);
+                btn_nilai_ubahActionPerformed(evt);
             }
         });
 
-        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_simpan.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
-        btn_mata_kuliah_simpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/simpan.png"))); // NOI18N
-        btn_mata_kuliah_simpan.setText("SIMPAN");
-        btn_mata_kuliah_simpan.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_nilai_hapus.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_hapus.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_nilai_hapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/hapus.png"))); // NOI18N
+        btn_nilai_hapus.setText("HAPUS");
+        btn_nilai_hapus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_simpanMouseEntered(evt);
+                btn_nilai_hapusMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_simpanMouseExited(evt);
+                btn_nilai_hapusMouseExited(evt);
+            }
+        });
+        btn_nilai_hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nilai_hapusActionPerformed(evt);
             }
         });
 
-        btn_mata_kuliah_batal.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_batal.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
-        btn_mata_kuliah_batal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/batal.png"))); // NOI18N
-        btn_mata_kuliah_batal.setText("BATAL");
-        btn_mata_kuliah_batal.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_nilai_simpan.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_simpan.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_nilai_simpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/simpan.png"))); // NOI18N
+        btn_nilai_simpan.setText("SIMPAN");
+        btn_nilai_simpan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_batalMouseEntered(evt);
+                btn_nilai_simpanMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_mata_kuliah_batalMouseExited(evt);
+                btn_nilai_simpanMouseExited(evt);
+            }
+        });
+        btn_nilai_simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nilai_simpanActionPerformed(evt);
+            }
+        });
+
+        btn_nilai_batal.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_batal.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_nilai_batal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/batal.png"))); // NOI18N
+        btn_nilai_batal.setText("BATAL");
+        btn_nilai_batal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_nilai_batalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_nilai_batalMouseExited(evt);
+            }
+        });
+        btn_nilai_batal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nilai_batalActionPerformed(evt);
             }
         });
 
@@ -620,15 +642,15 @@ public class frm_nilai extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btn_mata_kuliah_tambah)
+                                .addComponent(btn_nilai_tambah)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_mata_kuliah_ubah)
+                                .addComponent(btn_nilai_ubah)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_mata_kuliah_hapus)
+                                .addComponent(btn_nilai_hapus)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_mata_kuliah_simpan)
+                                .addComponent(btn_nilai_simpan)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_mata_kuliah_batal)
+                                .addComponent(btn_nilai_batal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_mata_kuliah_keluar)))))
                 .addContainerGap())
@@ -681,12 +703,12 @@ public class frm_nilai extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_mata_kuliah_ubah)
-                        .addComponent(btn_mata_kuliah_hapus)
-                        .addComponent(btn_mata_kuliah_simpan)
-                        .addComponent(btn_mata_kuliah_batal)
+                        .addComponent(btn_nilai_ubah)
+                        .addComponent(btn_nilai_hapus)
+                        .addComponent(btn_nilai_simpan)
+                        .addComponent(btn_nilai_batal)
                         .addComponent(btn_mata_kuliah_keluar))
-                    .addComponent(btn_mata_kuliah_tambah))
+                    .addComponent(btn_nilai_tambah))
                 .addGap(0, 21, Short.MAX_VALUE))
         );
 
@@ -710,55 +732,55 @@ public class frm_nilai extends javax.swing.JFrame {
         u.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    private void btn_mata_kuliah_tambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_tambahMouseEntered
-        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(128,136,203));
-        btn_mata_kuliah_tambah.setForeground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btn_mata_kuliah_tambahMouseEntered
+    private void btn_nilai_tambahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_tambahMouseEntered
+        btn_nilai_tambah.setBackground(new java.awt.Color(128,136,203));
+        btn_nilai_tambah.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_nilai_tambahMouseEntered
 
-    private void btn_mata_kuliah_tambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_tambahMouseExited
-        btn_mata_kuliah_tambah.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_tambah.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btn_mata_kuliah_tambahMouseExited
+    private void btn_nilai_tambahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_tambahMouseExited
+        btn_nilai_tambah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_tambah.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_nilai_tambahMouseExited
 
-    private void btn_mata_kuliah_ubahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahMouseEntered
-        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(128,136,203));
-        btn_mata_kuliah_ubah.setForeground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btn_mata_kuliah_ubahMouseEntered
+    private void btn_nilai_ubahMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_ubahMouseEntered
+        btn_nilai_ubah.setBackground(new java.awt.Color(128,136,203));
+        btn_nilai_ubah.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_nilai_ubahMouseEntered
 
-    private void btn_mata_kuliah_ubahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahMouseExited
-        btn_mata_kuliah_ubah.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_ubah.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btn_mata_kuliah_ubahMouseExited
+    private void btn_nilai_ubahMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_ubahMouseExited
+        btn_nilai_ubah.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_ubah.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_nilai_ubahMouseExited
 
-    private void btn_mata_kuliah_hapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusMouseEntered
-        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(128,136,203));
-        btn_mata_kuliah_hapus.setForeground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btn_mata_kuliah_hapusMouseEntered
+    private void btn_nilai_hapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_hapusMouseEntered
+        btn_nilai_hapus.setBackground(new java.awt.Color(128,136,203));
+        btn_nilai_hapus.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_nilai_hapusMouseEntered
 
-    private void btn_mata_kuliah_hapusMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusMouseExited
-        btn_mata_kuliah_hapus.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_hapus.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btn_mata_kuliah_hapusMouseExited
+    private void btn_nilai_hapusMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_hapusMouseExited
+        btn_nilai_hapus.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_hapus.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_nilai_hapusMouseExited
 
-    private void btn_mata_kuliah_simpanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_simpanMouseEntered
-        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(128,136,203));
-        btn_mata_kuliah_simpan.setForeground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btn_mata_kuliah_simpanMouseEntered
+    private void btn_nilai_simpanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_simpanMouseEntered
+        btn_nilai_simpan.setBackground(new java.awt.Color(128,136,203));
+        btn_nilai_simpan.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_nilai_simpanMouseEntered
 
-    private void btn_mata_kuliah_simpanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_simpanMouseExited
-        btn_mata_kuliah_simpan.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_simpan.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btn_mata_kuliah_simpanMouseExited
+    private void btn_nilai_simpanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_simpanMouseExited
+        btn_nilai_simpan.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_simpan.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_nilai_simpanMouseExited
 
-    private void btn_mata_kuliah_batalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_batalMouseEntered
-        btn_mata_kuliah_batal.setBackground(new java.awt.Color(128,136,203));
-        btn_mata_kuliah_batal.setForeground(new java.awt.Color(255, 255, 255));
-    }//GEN-LAST:event_btn_mata_kuliah_batalMouseEntered
+    private void btn_nilai_batalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_batalMouseEntered
+        btn_nilai_batal.setBackground(new java.awt.Color(128,136,203));
+        btn_nilai_batal.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_nilai_batalMouseEntered
 
-    private void btn_mata_kuliah_batalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_batalMouseExited
-        btn_mata_kuliah_batal.setBackground(new java.awt.Color(255, 255, 255));
-        btn_mata_kuliah_batal.setForeground(new java.awt.Color(0, 0, 0));
-    }//GEN-LAST:event_btn_mata_kuliah_batalMouseExited
+    private void btn_nilai_batalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nilai_batalMouseExited
+        btn_nilai_batal.setBackground(new java.awt.Color(255, 255, 255));
+        btn_nilai_batal.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_nilai_batalMouseExited
 
     private void btn_mata_kuliah_keluarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_keluarMouseEntered
         //[255,0,0]
@@ -784,7 +806,7 @@ public class frm_nilai extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tbl_nilaiMouseClicked
 
-    private void btn_mata_kuliah_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_hapusActionPerformed
+    private void btn_nilai_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nilai_hapusActionPerformed
         // TODO add your handling code here:
         try {
              Class.forName(driver);
@@ -804,11 +826,11 @@ public class frm_nilai extends javax.swing.JFrame {
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
-    }//GEN-LAST:event_btn_mata_kuliah_hapusActionPerformed
+    }//GEN-LAST:event_btn_nilai_hapusActionPerformed
 
-    private void btn_mata_kuliah_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mata_kuliah_ubahActionPerformed
+    private void btn_nilai_ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nilai_ubahActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_mata_kuliah_ubahActionPerformed
+    }//GEN-LAST:event_btn_nilai_ubahActionPerformed
 
     private void txt_nilai_nimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nilai_nimActionPerformed
         
@@ -834,27 +856,21 @@ public class frm_nilai extends javax.swing.JFrame {
 
     private void txt_nilai_keyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nilai_keyKeyReleased
         tableModel.setRowCount(0);
-        String keyNilai = txt_nilai_key.getText();
         try{
             Class.forName(driver);
             Connection kon = DriverManager.getConnection(database, user, pass);
             Statement stt = kon.createStatement();
-            String sql = "SELECT t_mahasiswa.nama, t_mata_kuliah.nama_mk, t_nilai.kehadiran, t_nilai.tugas_satu, t_nilai.tugas_dua, t_nilai.tugas_tiga, t_nilai.uts, t_nilai.uas, t_nilai.nilai, t_nilai.indeks, t_nilai.ket"
-            + "FROM t_nilai "
-            + "JOIN t_mata_kuliah ON t_nilai.kd_mk = t_mata_kuliah.kd_mk "
-            + "JOIN t_mahasiswa ON t_nilai.nim = t_mahasiswa.nim "
-            + "WHERE (t_mahasiswa.nama LIKE '%" + keyNilai + "%') "
-            + "OR (t_mata_kuliah.nama_mk LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.kehadiran LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.tugas_satu LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.tugas_dua LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.tugas_tiga LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.uts LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.uas LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.nilai LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.indeks LIKE '%" + keyNilai + "%') "
-            + "OR (t_nilai.ket LIKE '%" + keyNilai + "%') "
-            + "ORDER BY t_mahasiswa.nama ASC;";
+            String sql = "SELECT t_mahasiswa.nama, t_mata_kuliah.nama_mk, t_nilai.kehadiran, t_nilai.tugas_satu, t_nilai.tugas_dua, t_nilai.tugas_tiga, t_nilai.uts, t_nilai.uas, t_nilai.nilai_absen, t_nilai.nilai_tugas, t_nilai.nilai_uts, t_nilai.nilai_uas, t_nilai.nilai_akhir, t_nilai.indeks, t_nilai.ket"
+                        + "FROM t_nilai "
+                        + "JOIN t_mahasiswa ON t_nilai.nim = t_mahasiswa.nim "
+                        + "JOIN t_mata_kuliah ON t_nilai.kd_mk = t_mata_kuliah.kd_mk "
+                        + "WHERE (t_mahasiswa.nama LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "OR (t_mahasiswa.nim LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "OR (t_mata_kuliah.kd_mk LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "OR (t_mata_kuliah.nama_mk LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "OR (t_nilai.indeks LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "OR (t_nilai.ket LIKE '%" + txt_nilai_key.getText() + "%') "
+                        + "ORDER BY t_mahasiswa.nama ASC;";
             ResultSet res = stt.executeQuery(sql);
             while(res.next()){
                 data[0] = res.getString(1);
@@ -865,13 +881,13 @@ public class frm_nilai extends javax.swing.JFrame {
                 data[5] = res.getString(6);
                 data[6] = res.getString(7);
                 data[7] = res.getString(8);
-                data[8] = data[3];
-                data[9] = data[4];
-                data[10] = data[5];
-                data[11] = data[6];
-                data[12] = res.getString(9);
-                data[13] = res.getString(10);
-                data[14] = res.getString(11);
+                data[8] = res.getString(9);
+                data[9] = res.getString(10);
+                data[10] = res.getString(11);
+                data[11] = res.getString(12);
+                data[12] = res.getString(13);
+                data[13] = res.getString(14);
+                data[14] = res.getString(15);
                 tableModel.addRow(data);
             }
             res.close();
@@ -881,6 +897,154 @@ public class frm_nilai extends javax.swing.JFrame {
             System.err.println(e.getMessage());
         }
     }//GEN-LAST:event_txt_nilai_keyKeyReleased
+
+    private void btn_nilai_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nilai_simpanActionPerformed
+        // TODO add your handling code here:
+        String data[] = new String[17];
+        double jmlhPertemuan = Double.valueOf(txt_nilai_kehadiran.getText());
+        int angkatan = 2021;
+        double tugas_satu = Double.valueOf(txt_nilai_tugas1.getText());
+        double tugas_dua = Double.valueOf(txt_nilai_tugas2.getText());
+        double tugas_tiga = Double.valueOf(txt_nilai_tugas3.getText());
+        double uts = Double.valueOf(txt_nilai_uts.getText());
+        double uas = Double.valueOf(txt_nilai_uas.getText());
+        
+        if (("".equals(txt_nilai_kehadiran.getText())) || ("".equals(txt_nilai_tugas1.getText())) || ("".equals(txt_nilai_tugas2.getText())) || ("".equals(txt_nilai_tugas3.getText())) || ("".equals(txt_nilai_uts.getText())) || ("".equals(txt_nilai_uas.getText()))){
+            JOptionPane.showMessageDialog(null, "Data tidak boleh kosong, silahkan dilengkapi", "Error!", JOptionPane.CANCEL_OPTION);
+        } else {
+            //hitung nilai_absen
+            double nilai_absen = (jmlhPertemuan/14)*5;
+
+            //hitung nilai_tugas
+            double rataTugas = (tugas_satu + tugas_dua + tugas_tiga)/3;
+            double nilai_tugas = rataTugas *0.25;
+
+            //hitung nilai_uts
+            double nilai_uts = uts * 0.30;
+
+            //hitung nilai_uas
+            double nilai_uas = uas * 0.40;
+
+            //hitung nilai_akhir
+            double nilai_akhir = nilai_absen + nilai_tugas + nilai_uts + nilai_uas;
+
+            //cari nilai indeks dan keterangan
+            String indeks = "";
+            String ket = "";
+            if((nilai_akhir >= 80) && (nilai_akhir <=100)){
+                indeks = "A";
+                if(jmlhPertemuan<11){
+                    ket = "Tidak Lulus";
+                }else{
+                    ket = "Lulus";
+                }
+            }if((nilai_akhir >= 68) && (nilai_akhir <80)){
+                indeks = "B";
+                if(jmlhPertemuan<11){
+                    ket = "Tidak Lulus";
+                }else{
+                    ket = "Lulus";
+                }
+            }if((nilai_akhir >= 56) && (nilai_akhir <68)){
+                indeks = "C";
+                if(jmlhPertemuan<11){
+                    ket = "Tidak Lulus";
+                }else{
+                    ket = "Lulus";
+                }
+            }if((nilai_akhir >= 45) && (nilai_akhir <56)){
+                indeks = "D";
+                ket = "Tidak Lulus";
+            }if((nilai_akhir >= 0) && (nilai_akhir <45)){
+                indeks = "E";
+                ket = "Tidak Lulus";
+            }
+            
+            try {
+                Class.forName(driver);
+                java.sql.Connection kon = DriverManager.getConnection(
+                                    database,
+                                    user,
+                                    pass);
+                Statement stt = kon.createStatement();
+                String SQL = "INSERT INTO t_nilai"
+                                + "(nim, kd_mk, kehadiran, tugas_satu, tugas_dua, tugas_tiga, uts, uas, angkatan, nilai_absen, nilai_tugas, nilai_uts, nilai_uas, nilai_akhir, indeks, ket)"
+                                + "VALUES "
+                                + "('"+txt_nilai_nim.getText()+"',"
+                                + " '"+txt_nilai_kd_mk.getText()+"' ,"
+                                + " '"+jmlhPertemuan+"' ,"
+                                + " '"+tugas_satu+"' ,"
+                                + " '"+tugas_dua+"' ,"
+                                + " '"+tugas_tiga+"' ,"
+                                + " '"+uts+"' ,"
+                                + " '"+uas+"' ,"
+                                + " '"+angkatan+"' ,"
+                                + " '"+nilai_absen+"' ,"
+                                + " '"+nilai_tugas+"' ,"
+                                + " '"+nilai_uts+"' ,"
+                                + " '"+nilai_uas+"' ,"
+                                + " '"+nilai_akhir+"' ,"
+                                + " '"+indeks+"' ,"
+                                + " '"+ket+"' )";
+                
+                stt.executeUpdate(SQL);
+                data[0] = combo_nilai_nama.getSelectedItem().toString();
+                data[1] = combo_nilai_nama_mk.getSelectedItem().toString();
+                data[2] = String.valueOf(jmlhPertemuan);
+                data[3] = String.valueOf(tugas_satu);
+                data[4] = String.valueOf(tugas_dua);
+                data[5] = String.valueOf(tugas_tiga);
+                data[6] = String.valueOf(uts);
+                data[7] = String.valueOf(uas);
+                data[8] = String.valueOf(nilai_absen);
+                data[9] = String.valueOf(nilai_tugas);
+                data[10] = String.valueOf(nilai_uts);
+                data[11] = String.valueOf(nilai_uas);
+                data[12] = String.valueOf(nilai_akhir);
+                data[13] = indeks;
+                data[14] = ket;
+                tableModel.addRow(data);
+                stt.close();
+                kon.close();
+                membersihkan_teks();
+                btn_nilai_simpan.setEnabled(false);
+                nonaktif_teks();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Eror",
+                JOptionPane.INFORMATION_MESSAGE);
+            }    
+        }
+    }//GEN-LAST:event_btn_nilai_simpanActionPerformed
+
+    private void btn_nilai_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nilai_tambahActionPerformed
+        // TODO add your handling code here:
+        membersihkan_teks();
+        btn_nilai_tambah.setEnabled(false);
+        btn_nilai_ubah.setEnabled(false);
+        btn_nilai_hapus.setEnabled(false);
+        btn_nilai_simpan.setEnabled(true);
+        btn_nilai_batal.setEnabled(true);
+        tampil_nim();
+        tampil_kd_mk();
+    }//GEN-LAST:event_btn_nilai_tambahActionPerformed
+
+    private void btn_nilai_batalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nilai_batalActionPerformed
+        membersihkan_teks();
+        btn_nilai_tambah.setEnabled(true);
+        btn_nilai_simpan.setEnabled(false);
+        btn_nilai_ubah.setEnabled(false);
+        btn_nilai_hapus.setEnabled(false);
+    }//GEN-LAST:event_btn_nilai_batalActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        btn_nilai_tambah.setEnabled(true);
+        btn_nilai_simpan.setEnabled(false);
+        btn_nilai_ubah.setEnabled(false);
+        btn_nilai_hapus.setEnabled(false);
+        btn_nilai_batal.setEnabled(false);
+        txt_nilai_nim.setText("");
+        txt_nilai_kd_mk.setText("");
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -918,12 +1082,12 @@ public class frm_nilai extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_mata_kuliah_batal;
-    private javax.swing.JButton btn_mata_kuliah_hapus;
     private javax.swing.JButton btn_mata_kuliah_keluar;
-    private javax.swing.JButton btn_mata_kuliah_simpan;
-    private javax.swing.JButton btn_mata_kuliah_tambah;
-    private javax.swing.JButton btn_mata_kuliah_ubah;
+    private javax.swing.JButton btn_nilai_batal;
+    private javax.swing.JButton btn_nilai_hapus;
+    private javax.swing.JButton btn_nilai_simpan;
+    private javax.swing.JButton btn_nilai_tambah;
+    private javax.swing.JButton btn_nilai_ubah;
     private javax.swing.JComboBox<String> combo_nilai_nama;
     private javax.swing.JComboBox<String> combo_nilai_nama_mk;
     private javax.swing.JPanel jPanel1;
