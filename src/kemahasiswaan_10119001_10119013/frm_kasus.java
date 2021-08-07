@@ -29,9 +29,16 @@ public class frm_kasus extends javax.swing.JFrame {
     String nama_produk;
     String nama_member;
     String username;
+    int struk;
+    int htgStruk;
+    String Username;
+    String nama_kasir;
+    int totalBayar = 0;
+    int point;
     
     ArrayList<Member> arrMember = new ArrayList<>();
     ArrayList<Produk> arrProduk = new ArrayList<>();
+    ArrayList<User> arrUser = new ArrayList<>();
     
     public frm_kasus() {
         initComponents();
@@ -46,6 +53,9 @@ public class frm_kasus extends javax.swing.JFrame {
         tampil_point_member();
         tampil_id_produk();
         tampil_harga_satuan();
+        getNoStruk();
+        tampil_combo_nama_kasir();
+        tbl_transaksi.setModel(tableModel);
     }
     
     public void tampil_combo_nama_member(){
@@ -177,9 +187,91 @@ public class frm_kasus extends javax.swing.JFrame {
     }
     
     public void getNoStruk(){
-        
+        String data[] = new String[1];
+        try{
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String sql = "SELECT MAX(NoStruk) FROM t_struk";      
+            ResultSet res = stt.executeQuery(sql);
+            while(res.next()){
+                data[0] = res.getString(1);
+                struk = Integer.valueOf(data[0]);
+            }
+            res.close();
+            stt.close();
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }
     
+    public void tampil_combo_nama_kasir(){
+        try {
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String sql = "SELECT Username, Nama FROM t_user ORDER BY Nama ASC";      // disini saya menampilkan, anda dapat menampilkan                            // yang anda ingin kan
+            ResultSet res = stt.executeQuery(sql);
+            while(res.next()){
+                arrUser.add(new User(res.getString("Username"), res.getString("Nama")));
+                // fungsi ini bertugas menampung isi dari database
+            }
+            for(int i=0;i<arrUser.size();i++){
+                combo_nama_kasir.addItem(arrUser.get(i).getNama());
+            }
+            res.close();
+            stt.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void tampil_total_bayar(){
+        String data[] = new String[1];
+        try{
+            Connection kon = DriverManager.getConnection(database, user, pass);
+            Statement stt = kon.createStatement();
+            String sql = "SELECT SUM(TotalHarga) FROM t_detail_struk WHERE NoStruk = '"+txt_no_struk.getText()+"'";      
+            ResultSet res = stt.executeQuery(sql);
+            while(res.next()){
+                data[0] = res.getString(1);
+                totalBayar = Integer.valueOf(data[0]);
+                txt_total_bayar.setText(String.valueOf(totalBayar));
+            }
+            res.close();
+            stt.close();
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    int row = 0;
+    public void tampil_field(){
+        row = tbl_transaksi.getSelectedRow();
+        combo_nama_produk.setSelectedItem(tableModel.getValueAt(row, 1));
+        txt_id_produk.setText(tableModel.getValueAt(row, 0).toString());
+        txt_jumlah.setText(tableModel.getValueAt(row, 2).toString());
+    }
+    
+    private javax.swing.table.DefaultTableModel tableModel = getDefaultTabelModel();
+    private javax.swing.table.DefaultTableModel getDefaultTabelModel() {
+        // membuat judul header
+        return new javax.swing.table.DefaultTableModel (
+            new Object[][] {},
+            new String [] {"Id Produk",
+                           "Nama Produk",
+                           "Jumlah",
+                           "Total Harga"}
+        )
+        // disable perubahan pada grid
+        {
+            boolean[] canEdit = new boolean[] {
+                false, false, false, false
+            };
+            
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -195,7 +287,6 @@ public class frm_kasus extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lbl_jdl_kasus = new javax.swing.JLabel();
-        lbl_nama_kasir1 = new javax.swing.JLabel();
         lbl_tanya_member = new javax.swing.JLabel();
         ada_member = new javax.swing.JRadioButton();
         tidak_member = new javax.swing.JRadioButton();
@@ -227,6 +318,9 @@ public class frm_kasus extends javax.swing.JFrame {
         btn_edit_produk = new javax.swing.JButton();
         btn_hapus_produk = new javax.swing.JButton();
         btn_transaksi = new javax.swing.JButton();
+        lbl_nama_kasir = new javax.swing.JLabel();
+        combo_nama_kasir = new javax.swing.JComboBox<>();
+        btn_batal_produk = new javax.swing.JButton();
 
         jPopupMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -266,11 +360,8 @@ public class frm_kasus extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbl_jdl_kasus)
-                .addContainerGap())
+                .addGap(87, 87, 87))
         );
-
-        lbl_nama_kasir1.setFont(new java.awt.Font("Microsoft YaHei", 0, 18)); // NOI18N
-        lbl_nama_kasir1.setText("HALO, SAYA (NAMA)");
 
         lbl_tanya_member.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         lbl_tanya_member.setText("Apakah pelanggan ada member?");
@@ -351,6 +442,11 @@ public class frm_kasus extends javax.swing.JFrame {
 
         txt_total_bayar.setEditable(false);
         txt_total_bayar.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        txt_total_bayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_total_bayarActionPerformed(evt);
+            }
+        });
 
         lbl_harga_satuan.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
         lbl_harga_satuan.setText("Harga Satuan");
@@ -385,9 +481,14 @@ public class frm_kasus extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Id Barang", "Nama Barang", "Jumlah Barang", "Total Harga"
+                "Id Produk", "Nama Produk", "Jumlah Produk", "Total Harga"
             }
         ));
+        tbl_transaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_transaksiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_transaksi);
 
         txt_uang_bayar.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
@@ -487,11 +588,39 @@ public class frm_kasus extends javax.swing.JFrame {
             }
         });
 
+        lbl_nama_kasir.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        lbl_nama_kasir.setText("Nama Kasir");
+
+        combo_nama_kasir.setFont(new java.awt.Font("Microsoft YaHei", 0, 12)); // NOI18N
+        combo_nama_kasir.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        combo_nama_kasir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_nama_kasirActionPerformed(evt);
+            }
+        });
+
+        btn_batal_produk.setFont(new java.awt.Font("Microsoft YaHei", 1, 12)); // NOI18N
+        btn_batal_produk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kemahasiswaan_10119001_10119013/batal.png"))); // NOI18N
+        btn_batal_produk.setText("Batal");
+        btn_batal_produk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_batal_produkMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_batal_produkMouseExited(evt);
+            }
+        });
+        btn_batal_produk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_batal_produkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,53 +628,44 @@ public class frm_kasus extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_nama_kasir1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lbl_nama_member)
+                                        .addComponent(lbl_id_member))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(combo_nama_member, 0, 262, Short.MAX_VALUE)
+                                        .addComponent(txt_id_member)))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(lbl_tanya_member)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(ada_member)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(tidak_member))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(lbl_point_member)
+                                    .addGap(24, 24, 24)
+                                    .addComponent(txt_point_member))
+                                .addComponent(lbl_nama_kasir))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbl_tanya_member)
-                                .addGap(18, 18, 18)
-                                .addComponent(ada_member)
-                                .addGap(18, 18, 18)
-                                .addComponent(tidak_member))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_nama_member)
-                                    .addComponent(lbl_id_member))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(combo_nama_member, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txt_id_member)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbl_point_member)
-                                .addGap(24, 24, 24)
-                                .addComponent(txt_point_member)))
-                        .addGap(97, 97, 97)
+                                .addGap(107, 107, 107)
+                                .addComponent(combo_nama_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(93, 93, 93)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btn_keluar)
                                 .addContainerGap())
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btn_tambah_produk)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_edit_produk)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_hapus_produk)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lbl_harga_satuan)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txt_harga_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(168, 168, 168)
-                                        .addComponent(txt_uang_bayar, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lbl_nama_produk)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(combo_nama_produk, 0, 223, Short.MAX_VALUE))
+                                                .addComponent(combo_nama_produk, 0, 266, Short.MAX_VALUE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lbl_id_produk)
                                                 .addGap(41, 41, 41)
@@ -553,23 +673,39 @@ public class frm_kasus extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lbl_jumlah)
                                                 .addGap(59, 59, 59)
-                                                .addComponent(txt_jumlah, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txt_harga_satuan)
+                                                    .addComponent(txt_jumlah))))
                                         .addGap(62, 62, 62)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(btn_transaksi)
-                                                .addGap(0, 0, Short.MAX_VALUE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(lbl_total_bayar)
                                                     .addComponent(lbl_uang_bayar))
                                                 .addGap(18, 18, 18)
-                                                .addComponent(txt_total_bayar, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txt_total_bayar)
+                                                    .addComponent(txt_uang_bayar)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(btn_transaksi)
+                                                .addGap(0, 0, Short.MAX_VALUE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(lbl_no_struk)
-                                                .addGap(43, 43, 43)
-                                                .addComponent(txt_no_struk, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)))))
-                                .addGap(150, 150, 150))))))
+                                                .addGap(100, 100, 100)
+                                                .addComponent(txt_no_struk, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lbl_harga_satuan)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(btn_tambah_produk)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btn_edit_produk)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btn_hapus_produk)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btn_batal_produk)))
+                                        .addGap(0, 387, Short.MAX_VALUE)))
+                                .addGap(93, 93, 93))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_bayar)
@@ -579,13 +715,18 @@ public class frm_kasus extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbl_nama_kasir1)
-                        .addComponent(btn_keluar))
-                    .addComponent(btn_transaksi, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_keluar)
+                            .addComponent(btn_transaksi, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_nama_kasir)
+                            .addComponent(combo_nama_kasir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -625,10 +766,11 @@ public class frm_kasus extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_tambah_produk)
                     .addComponent(btn_edit_produk)
-                    .addComponent(btn_hapus_produk))
+                    .addComponent(btn_hapus_produk)
+                    .addComponent(btn_batal_produk))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_bayar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -637,11 +779,11 @@ public class frm_kasus extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setBounds(0, 0, 1350, 730);
@@ -664,22 +806,19 @@ public class frm_kasus extends javax.swing.JFrame {
         txt_point_member.setVisible(false);
         lbl_id_member.setVisible(false);
         txt_id_member.setVisible(false);
-        lbl_nama_produk.setVisible(false);
-        lbl_id_produk.setVisible(false);
-        lbl_jumlah.setVisible(false);
-        lbl_harga_satuan.setVisible(false);
-        combo_nama_produk.setVisible(false);
-        txt_id_produk.setVisible(false);
-        txt_jumlah.setVisible(false);
-        txt_harga_satuan.setVisible(false);
-        lbl_total_bayar.setVisible(false);
-        txt_total_bayar.setVisible(false);
-        lbl_uang_bayar.setVisible(false);
-        txt_uang_bayar.setVisible(false);
-        btn_tambah_produk.setVisible(false);
-        btn_edit_produk.setVisible(false);
-        btn_hapus_produk.setVisible(false);
-        btn_bayar.setVisible(false);
+        txt_id_produk.setText("");
+        txt_jumlah.setEnabled(false);
+        txt_harga_satuan.setText("");
+        txt_no_struk.setText("");
+        btn_tambah_produk.setEnabled(false);
+        btn_edit_produk.setEnabled(false);
+        btn_hapus_produk.setEnabled(false);
+        txt_total_bayar.setText("");
+        txt_uang_bayar.setEnabled(false);
+        combo_nama_produk.setEnabled(false);
+        btn_batal_produk.setEnabled(false);
+        btn_bayar.setEnabled(false);
+        getNoStruk();
     }//GEN-LAST:event_formWindowOpened
 
     private void ada_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ada_memberActionPerformed
@@ -689,6 +828,8 @@ public class frm_kasus extends javax.swing.JFrame {
         txt_point_member.setVisible(true);
         lbl_id_member.setVisible(true);
         txt_id_member.setVisible(true);
+        txt_id_member.setText("");
+        txt_point_member.setText("");
     }//GEN-LAST:event_ada_memberActionPerformed
 
     private void tidak_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tidak_memberActionPerformed
@@ -701,12 +842,50 @@ public class frm_kasus extends javax.swing.JFrame {
     }//GEN-LAST:event_tidak_memberActionPerformed
 
     private void btn_tambah_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tambah_produkActionPerformed
-        btn_edit_produk.setVisible(false);
-        btn_hapus_produk.setVisible(false);
         if(txt_jumlah.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Data tidak boleh kosong!", "Error", JOptionPane.CANCEL_OPTION);
         }else{
+            String adaMember = null;
+            if(ada_member.isSelected()){
+                adaMember = txt_id_member.getText();
+            }else if(tidak_member.isSelected()){
+                adaMember = "1";
+            }
             
+            //hitung total harga
+            int jumlahProduk = Integer.valueOf(txt_jumlah.getText());
+            int hargaSatuanProduk = Integer.valueOf(txt_harga_satuan.getText());
+            int htgTotalHarga = jumlahProduk * hargaSatuanProduk;
+            
+            String data[] = new String[4];
+            try{
+                Connection kon = DriverManager.getConnection(database, user, pass);
+                Statement stt = kon.createStatement();
+                String sql = "INSERT INTO t_detail_struk"
+                        + "(NoStruk, IdBarang, Username, IdMember, Jumlah, TotalHarga)"
+                        + "VALUES"
+                        + "('"+txt_no_struk.getText()+"',"
+                        + "'"+txt_id_produk.getText()+"',"
+                        + "'"+Username+"',"
+                        + "'"+adaMember+"',"
+                        + "'"+txt_jumlah.getText()+"',"
+                        + "'"+htgTotalHarga+"');";    
+                stt.executeUpdate(sql);
+                data[0] = txt_id_produk.getText();
+                data[1] = (String) combo_nama_produk.getSelectedItem();
+                data[2] = txt_jumlah.getText();
+                data[3] = String.valueOf(htgTotalHarga);
+                tableModel.addRow(data);
+                stt.close();
+                kon.close();
+                txt_id_produk.setText("");
+                txt_jumlah.setText("");
+                txt_harga_satuan.setText("");
+                btn_bayar.setEnabled(true);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Gagal!", JOptionPane.INFORMATION_MESSAGE);
+            }
+            tampil_total_bayar();
         }
     }//GEN-LAST:event_btn_tambah_produkActionPerformed
 
@@ -732,7 +911,76 @@ public class frm_kasus extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_bayarMouseExited
 
     private void btn_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bayarActionPerformed
-        // TODO add your handling code here:
+        if(txt_total_bayar.getText().isEmpty() || txt_uang_bayar.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Periksa kembali apakah uang sudah diberikan atau apakah barang sudah diinput!", "Gagal!", JOptionPane.CANCEL_OPTION);
+        }else{
+            frm_konf_bayar konf = new frm_konf_bayar();
+            
+            String getNoStruk = txt_no_struk.getText();
+            konf.txt_no_struk_konf.setText(getNoStruk);
+
+            String getTotalBayar = txt_total_bayar.getText();
+            konf.txt_total_bayar_konf.setText(getTotalBayar);
+
+            String getUangBayar = txt_uang_bayar.getText();
+            konf.txt_uang_bayar_konf.setText(getUangBayar);
+
+            //hitung kembalian
+            int totalBayar = Integer.valueOf(txt_total_bayar.getText());
+            int uangBayar = Integer.valueOf(txt_uang_bayar.getText());
+            int kembalian = uangBayar - totalBayar;
+            konf.txt_uang_kembalian_konf.setText(String.valueOf(kembalian));
+
+            String getPoint = txt_point_member.getText();
+            konf.txt_point_konf.setText(getPoint);
+
+            //hitung point
+            int tmbhPoint = 0;
+            if(ada_member.isSelected()){
+                if((totalBayar>0) && (totalBayar<=500000)){
+                    tmbhPoint = 1;
+                }else if ((totalBayar>500000) && (totalBayar<=1000000)){
+                    tmbhPoint = 2;
+                }else if((totalBayar>1000000) && (totalBayar<=1500000)){
+                    tmbhPoint = 3;
+                }else if((totalBayar>1500000) && (totalBayar<=2000000)){
+                    tmbhPoint = 4;
+                }else if((totalBayar>2000000) && (totalBayar<=2500000)){
+                    tmbhPoint = 5;
+                }else if((totalBayar>2500000) && (totalBayar<=3000000)){
+                    tmbhPoint = 6;
+                }else if((totalBayar>3000000) && (totalBayar<=3500000)){
+                    tmbhPoint = 7;
+                }else if((totalBayar>3500000) && (totalBayar<=4000000)){
+                    tmbhPoint = 7;
+                }else{
+                    tmbhPoint = 8;
+                }
+            }if(tidak_member.isSelected()){
+                tmbhPoint = 0;
+            }
+            konf.txt_tambah_point_konf.setText(String.valueOf(tmbhPoint));
+            
+            //hitung total point
+            int pointAwal = Integer.valueOf(txt_point_member.getText());
+            int htgTotalPoint = pointAwal + tmbhPoint;
+            konf.txt_total_point_konf.setText(String.valueOf(htgTotalPoint));
+            
+            String getIdMember = null;
+            String getNamaMember = null;
+            if(ada_member.isSelected()){
+                getIdMember = txt_id_member.getText();
+                getNamaMember = (String) combo_nama_member.getSelectedItem();
+            }else if(tidak_member.isSelected()){
+                getIdMember = "1";
+                getNamaMember = "-";
+            }
+            konf.txt_id_member_konf.setText(getIdMember);
+            konf.txt_nama_member_konf.setText(getNamaMember);
+            
+            konf.setVisible(true);
+            hide();
+        }
     }//GEN-LAST:event_btn_bayarActionPerformed
 
     private void btn_keluarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_keluarMouseEntered
@@ -769,6 +1017,8 @@ public class frm_kasus extends javax.swing.JFrame {
             tampil_id_produk();
             tampil_harga_satuan();
         }
+        
+        txt_jumlah.setText("");
     }//GEN-LAST:event_combo_nama_produkActionPerformed
 
     private void txt_id_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id_memberActionPerformed
@@ -776,66 +1026,170 @@ public class frm_kasus extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_id_memberActionPerformed
 
     private void btn_edit_produkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_produkMouseEntered
-        // TODO add your handling code here:
+        btn_edit_produk.setBackground(new java.awt.Color(128,136,203));
+        btn_edit_produk.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_edit_produkMouseEntered
 
     private void btn_edit_produkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_produkMouseExited
-        // TODO add your handling code here:
+        btn_edit_produk.setBackground(new java.awt.Color(255, 255, 255));
+        btn_edit_produk.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_edit_produkMouseExited
 
     private void btn_edit_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_edit_produkActionPerformed
-        // TODO add your handling code here:
+        String adaMember = null;
+        if(ada_member.isSelected()){
+            adaMember = txt_id_member.getText();
+        }else if(tidak_member.isSelected()){
+            adaMember = "1";
+        }
+        
+        //hitung total harga
+        int jumlahProduk = Integer.valueOf(txt_jumlah.getText());
+        int hargaSatuanProduk = Integer.valueOf(txt_harga_satuan.getText());
+        int htgTotalHarga = jumlahProduk * hargaSatuanProduk;
+        
+        String data[] = new String[4];
+        try {
+            Class.forName(driver);
+            java.sql.Connection kon = DriverManager.getConnection(
+                                database,
+                                user,
+                                pass);
+            Statement stt = kon.createStatement();
+            String SQL = "UPDATE t_detail_struk "
+                    + "SET Username = '"+Username+"', "
+                    + "IdMember = '"+adaMember+"', "
+                    + "Jumlah = '"+txt_jumlah.getText()+"', "
+                    + "TotalHarga = '"+htgTotalHarga+"' "
+                    + "WHERE NoStruk = '"+txt_no_struk.getText()+"' "
+                    + "AND IdBarang = '"+txt_id_produk.getText()+"';";
+
+            stt.executeUpdate(SQL);
+            data[0] = txt_id_produk.getText();
+            data[1] = (String) combo_nama_produk.getSelectedItem();
+            data[2] = txt_jumlah.getText();
+            data[3] = String.valueOf(htgTotalHarga);
+            tableModel.removeRow(row);
+            tableModel.insertRow(row, data);
+            stt.close();
+            kon.close();
+            txt_id_produk.setText("");
+            txt_jumlah.setText("");
+            txt_harga_satuan.setText("");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Gagal!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        tampil_total_bayar();
     }//GEN-LAST:event_btn_edit_produkActionPerformed
 
     private void btn_hapus_produkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hapus_produkMouseEntered
-        // TODO add your handling code here:
+        btn_hapus_produk.setBackground(new java.awt.Color(128,136,203));
+        btn_hapus_produk.setForeground(new java.awt.Color(255, 255, 255));
     }//GEN-LAST:event_btn_hapus_produkMouseEntered
 
     private void btn_hapus_produkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hapus_produkMouseExited
-        // TODO add your handling code here:
+        btn_hapus_produk.setBackground(new java.awt.Color(255, 255, 255));
+        btn_hapus_produk.setForeground(new java.awt.Color(0, 0, 0));
     }//GEN-LAST:event_btn_hapus_produkMouseExited
 
     private void btn_hapus_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus_produkActionPerformed
-        // TODO add your handling code here:
+        try {
+            Class.forName(driver);
+            java.sql.Connection kon = DriverManager.getConnection(
+                                    database,
+                                    user,
+                                    pass);
+            Statement stt = kon.createStatement();
+            String SQL = "DELETE FROM t_detail_struk "
+                    + "WHERE NoStruk = '"+txt_no_struk.getText()+"' "
+                    + "AND IdBarang = '"+txt_id_produk.getText()+"';";
+            stt.executeUpdate(SQL);
+            tableModel.removeRow(row);
+            stt.close();
+            kon.close();
+            btn_hapus_produk.setEnabled(false);
+            btn_edit_produk.setEnabled(false);
+            btn_batal_produk.setEnabled(false);
+            btn_batal_produk.setEnabled(false);
+            btn_tambah_produk.setEnabled(true);
+            txt_id_produk.setText("");
+            txt_jumlah.setText("");
+            txt_harga_satuan.setText("");
+            txt_total_bayar.setText("");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Gagal!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        tampil_total_bayar();
     }//GEN-LAST:event_btn_hapus_produkActionPerformed
 
     private void txt_no_strukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_no_strukActionPerformed
-        String data[] = new String[1];
+        
+    }//GEN-LAST:event_txt_no_strukActionPerformed
+
+    private void btn_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transaksiActionPerformed
+        htgStruk = struk + 1;
         try{
             Connection kon = DriverManager.getConnection(database, user, pass);
             Statement stt = kon.createStatement();
-            String sql = "SELECT NoStruk FROM t_struk WHERE WaktuStruk = (SELECT MAX(WsktuStruk) FROM t_struk)";      
-            ResultSet res = stt.executeQuery(sql);
-            while(res.next()){
-                data[0] = res.getString(1);
-                txt_no_struk.setText(data[0]);
-            }
-            res.close();
+            String sql = "INSERT INTO t_struk(NoStruk,WaktuStruk,TotalBayar)"
+                    + "VALUES('"+htgStruk+"',now(),'0');";    
+            stt.executeUpdate(sql);
+            txt_no_struk.setText(String.valueOf(htgStruk));
+            txt_id_produk.setText("");
+            txt_jumlah.setEnabled(true);
+            txt_harga_satuan.setText("");
+            btn_tambah_produk.setEnabled(true);
+            txt_total_bayar.setText("");
+            txt_uang_bayar.setEnabled(true);
+            combo_nama_produk.setEnabled(true);
+            btn_batal_produk.setEnabled(true);
+            btn_transaksi.setEnabled(false);
             stt.close();
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
-    }//GEN-LAST:event_txt_no_strukActionPerformed
-
-    private void btn_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transaksiActionPerformed
-        lbl_nama_produk.setVisible(true);
-        lbl_id_produk.setVisible(true);
-        lbl_jumlah.setVisible(true);
-        lbl_harga_satuan.setVisible(true);
-        combo_nama_produk.setVisible(true);
-        txt_id_produk.setVisible(true);
-        txt_jumlah.setVisible(true);
-        txt_harga_satuan.setVisible(true);
-        lbl_total_bayar.setVisible(true);
-        txt_total_bayar.setVisible(true);
-        lbl_uang_bayar.setVisible(true);
-        txt_uang_bayar.setVisible(true);
-        btn_tambah_produk.setVisible(true);
-        btn_edit_produk.setVisible(true);
-        btn_hapus_produk.setVisible(true);
-        btn_bayar.setVisible(true);
-        
     }//GEN-LAST:event_btn_transaksiActionPerformed
+
+    private void combo_nama_kasirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_nama_kasirActionPerformed
+        int idx = combo_nama_kasir.getSelectedIndex();
+        
+        if(arrUser.size() > 0){
+            Username = arrUser.get(idx).getUsername();
+        }
+    }//GEN-LAST:event_combo_nama_kasirActionPerformed
+
+    private void txt_total_bayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_total_bayarActionPerformed
+        tampil_total_bayar();
+    }//GEN-LAST:event_txt_total_bayarActionPerformed
+
+    private void tbl_transaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_transaksiMouseClicked
+        if(evt.getClickCount()==1){
+            tampil_field();
+            btn_edit_produk.setEnabled(true);
+            btn_hapus_produk.setEnabled(true);
+            btn_tambah_produk.setEnabled(false);
+            btn_batal_produk.setEnabled(true);
+        }
+    }//GEN-LAST:event_tbl_transaksiMouseClicked
+
+    private void btn_batal_produkMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_batal_produkMouseEntered
+        btn_batal_produk.setBackground(new java.awt.Color(128,136,203));
+        btn_batal_produk.setForeground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_btn_batal_produkMouseEntered
+
+    private void btn_batal_produkMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_batal_produkMouseExited
+        btn_batal_produk.setBackground(new java.awt.Color(255, 255, 255));
+        btn_batal_produk.setForeground(new java.awt.Color(0, 0, 0));
+    }//GEN-LAST:event_btn_batal_produkMouseExited
+
+    private void btn_batal_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_batal_produkActionPerformed
+        btn_tambah_produk.setEnabled(true);
+        btn_edit_produk.setEnabled(false);
+        btn_hapus_produk.setEnabled(false);
+        txt_id_produk.setText("");
+        txt_jumlah.setText("");
+        txt_harga_satuan.setText("");
+    }//GEN-LAST:event_btn_batal_produkActionPerformed
 
     /**
      * @param args the command line arguments
@@ -873,7 +1227,8 @@ public class frm_kasus extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton ada_member;
+    public javax.swing.JRadioButton ada_member;
+    private javax.swing.JButton btn_batal_produk;
     private javax.swing.JButton btn_bayar;
     private javax.swing.JButton btn_edit_produk;
     private javax.swing.JButton btn_hapus_produk;
@@ -882,6 +1237,7 @@ public class frm_kasus extends javax.swing.JFrame {
     private javax.swing.JButton btn_transaksi;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox<String> combo_nama_kasir;
     private javax.swing.JComboBox<String> combo_nama_member;
     private javax.swing.JComboBox<String> combo_nama_produk;
     private javax.swing.JPanel jPanel1;
@@ -893,7 +1249,7 @@ public class frm_kasus extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_id_produk;
     private javax.swing.JLabel lbl_jdl_kasus;
     private javax.swing.JLabel lbl_jumlah;
-    private javax.swing.JLabel lbl_nama_kasir1;
+    private javax.swing.JLabel lbl_nama_kasir;
     private javax.swing.JLabel lbl_nama_member;
     private javax.swing.JLabel lbl_nama_produk;
     private javax.swing.JLabel lbl_no_struk;
@@ -902,14 +1258,14 @@ public class frm_kasus extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_total_bayar;
     private javax.swing.JLabel lbl_uang_bayar;
     private javax.swing.JTable tbl_transaksi;
-    private javax.swing.JRadioButton tidak_member;
+    public javax.swing.JRadioButton tidak_member;
     private javax.swing.JTextField txt_harga_satuan;
-    private javax.swing.JTextField txt_id_member;
+    public javax.swing.JTextField txt_id_member;
     private javax.swing.JTextField txt_id_produk;
     private javax.swing.JTextField txt_jumlah;
-    private javax.swing.JTextField txt_no_struk;
+    public javax.swing.JTextField txt_no_struk;
     private javax.swing.JTextField txt_point_member;
-    private javax.swing.JTextField txt_total_bayar;
-    private javax.swing.JTextField txt_uang_bayar;
+    public javax.swing.JTextField txt_total_bayar;
+    public javax.swing.JTextField txt_uang_bayar;
     // End of variables declaration//GEN-END:variables
 }
